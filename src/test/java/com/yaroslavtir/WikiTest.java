@@ -1,50 +1,21 @@
 package com.yaroslavtir;
 
-
+import info.bliki.html.HTML2WikiConverter;
+import info.bliki.html.wikipedia.ToWikipedia;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
+import org.jsoup.safety.Whitelist;
 import org.junit.Test;
 
-public class PolarionTest {
+public class WikiTest {
 
     @Test
     public void test() throws Exception {
-        StringBuilder sb = new StringBuilder();
         long start = System.currentTimeMillis();
-        Document doc = Jsoup.parse(html);
-        for (Node node : doc.body().children()) {
-            if (node instanceof Element) {
-                Element element = (Element) node;
-                if ("b".equals(element.tag().getName())) {
-                    sb.append("*" + element.text() + "*");
-                    sb.append("\n");
-                } else if ("table".equals(element.tag().getName())) {
-
-                    for (Element node2 : element.select("tr")) {
-                        if (node2 instanceof Element) {
-                            for (Node node3 : node2.childNodes()) {
-                                if (node3 instanceof Element) {
-                                    Element element3 = (Element) node3;
-                                    if ("td".equals(element3.tagName())) {
-                                        sb.append("|");
-                                        sb.append(element3.text());
-                                    } else if ("th".equals(element3.tagName())) {
-                                        sb.append("||");
-                                        sb.append(element3.text());
-                                    }
-                                }
-                            }
-                            sb.append("|");
-                            sb.append("\n");
-                        }
-
-                    }
-                }
-            }
-        }
-        System.out.println(sb.toString());
+        String cleanText = Jsoup.clean(html, Whitelist.relaxed());
+        HTML2WikiConverter conv = new HTML2WikiConverter();
+        conv.setInputHTML(cleanText);
+        String convertedText = conv.toWiki(new ToWikipedia());
+        System.out.println(convertedText);
         System.out.println(System.currentTimeMillis()-start);
     }
 
@@ -156,4 +127,5 @@ public class PolarionTest {
             "                class=\"polarion-no-style-cleanup\"/></span>Failed</span></span></span></td>\n" +
             "    </tr>\n" +
             "</table>";
+
 }

@@ -6,12 +6,16 @@
   <packaging>jar</packaging>
   
   <dependencies>
-		<!-- logging -->
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-		</dependency>
+	  <dependency>
+		  <groupId>info.bliki.wiki</groupId>
+		  <artifactId>bliki</artifactId>
+		  <version>3.0.19</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>info.bliki.wiki</groupId>
+		  <artifactId>bliki-core</artifactId>
+		  <version>3.0.19</version>
+	  </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -24,4 +28,5 @@
  			<version>1.7.1</version>
 		</dependency>
   </dependencies>
+
 </project>
