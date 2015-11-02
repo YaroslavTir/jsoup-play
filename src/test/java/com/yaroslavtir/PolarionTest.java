@@ -12,9 +12,9 @@ public class PolarionTest {
 
     @Test
     public void test() throws Exception {
-        Document doc = Jsoup.parse(html);
         StringBuilder sb = new StringBuilder();
-
+        long start = System.currentTimeMillis();
+        Document doc = Jsoup.parse(html);
         for (Node node : doc.body().children()) {
             if (node instanceof Element) {
                 Element element = (Element) node;
@@ -22,6 +22,7 @@ public class PolarionTest {
                     sb.append("*" + element.text() + "*");
                     sb.append("\n");
                 } else if ("table".equals(element.tag().getName())) {
+
                     for (Element node2 : element.select("tr")) {
                         if (node2 instanceof Element) {
                             for (Node node3 : node2.childNodes()) {
@@ -45,6 +46,7 @@ public class PolarionTest {
             }
         }
         System.out.println(sb.toString());
+        System.out.println(System.currentTimeMillis()-start);
     }
 
     public static final String html = "<b>Test Run:</b> <span id=\"link\" class=\"polarion-rte-link\" data-type=\"testRun\" data-item-id=\"hello world\"\n" +

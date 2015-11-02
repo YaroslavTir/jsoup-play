@@ -18,6 +18,7 @@ public class DomTest {
         StringBuilder sb = new StringBuilder();
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        long start = System.currentTimeMillis();
         InputStream stream = new ByteArrayInputStream(html.getBytes(StandardCharsets.UTF_8));
         Document parse = dBuilder.parse(stream);
         NodeList nodes = parse.getDocumentElement().getChildNodes();
@@ -50,6 +51,7 @@ public class DomTest {
             sb.append("\n");
         }
         System.out.println(sb.toString());
+        System.out.println(System.currentTimeMillis()-start);
     }
 
     public static final String html = "<doc>\n" +
