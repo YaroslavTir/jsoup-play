@@ -1,4 +1,4 @@
-package net.gosmarter.webcrawler;
+package com.yaroslavtir;
 
 
 import org.jsoup.Jsoup;
@@ -13,7 +13,7 @@ public class PolarionTest {
     @Test
     public void test() throws Exception {
         Document doc = Jsoup.parse(html);
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (Node node : doc.body().children()) {
             if (node instanceof Element) {
