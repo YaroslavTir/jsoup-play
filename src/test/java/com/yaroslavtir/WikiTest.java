@@ -15,8 +15,8 @@ public class WikiTest {
         HTML2WikiConverter conv = new HTML2WikiConverter();
         conv.setInputHTML(cleanText);
         String convertedText = conv.toWiki(new ToWikipedia());
-        System.out.println(convertedText);
-        System.out.println(System.currentTimeMillis()-start);
+            System.out.println(convertedText);
+        System.out.println(System.currentTimeMillis() - start);
     }
 
     public static final String html = "<b>Test Run:</b> <span id=\"link\" class=\"polarion-rte-link\" data-type=\"testRun\" data-item-id=\"hello world\"\n" +

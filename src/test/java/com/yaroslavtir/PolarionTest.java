@@ -1,52 +1,33 @@
 package com.yaroslavtir;
 
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 import org.junit.Test;
 
 public class PolarionTest {
 
     @Test
     public void test() throws Exception {
-        StringBuilder sb = new StringBuilder();
-        long start = System.currentTimeMillis();
-        Document doc = Jsoup.parse(html);
-        for (Node node : doc.body().children()) {
-            if (node instanceof Element) {
-                Element element = (Element) node;
-                if ("b".equals(element.tag().getName())) {
-                    sb.append("*" + element.text() + "*");
-                    sb.append("\n");
-                } else if ("table".equals(element.tag().getName())) {
-
-                    for (Element node2 : element.select("tr")) {
-                        if (node2 instanceof Element) {
-                            for (Node node3 : node2.childNodes()) {
-                                if (node3 instanceof Element) {
-                                    Element element3 = (Element) node3;
-                                    if ("td".equals(element3.tagName())) {
-                                        sb.append("|");
-                                        sb.append(element3.text());
-                                    } else if ("th".equals(element3.tagName())) {
-                                        sb.append("||");
-                                        sb.append(element3.text());
-                                    }
-                                }
-                            }
-                            sb.append("|");
-                            sb.append("\n");
-                        }
-
-                    }
-                }
-            }
-        }
-        System.out.println(sb.toString());
-        System.out.println(System.currentTimeMillis()-start);
+        new JsoupParser().start(html);
     }
+
+
+    public static final String html2 = "<table>\n" +
+            "    <tbody>\n" +
+            "    <tr>\n" +
+            "        <th>noting</th>\n" +
+            "        <th>head1</th>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td>a<img/></td>\n" +
+            "        <td> 1</td>\n" +
+            "    </tr>\n" +
+            "    <tr>\n" +
+            "        <td>b<img/></td>\n" +
+            "        <td> 2</td>\n" +
+            "    </tr>\n" +
+            "    </tbody>\n" +
+            "</table>\n";
+
 
     public static final String html = "<b>Test Run:</b> <span id=\"link\" class=\"polarion-rte-link\" data-type=\"testRun\" data-item-id=\"hello world\"\n" +
             "                       data-option-id=\"long\"></span><br/><b>Test Case:</b> <span id=\"link\" class=\"polarion-rte-link\"\n" +
