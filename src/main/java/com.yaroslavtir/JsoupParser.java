@@ -24,7 +24,7 @@ public class JsoupParser {
     }
 
     void init() {
-        tagMap.put("img", new EmptyTag());
+//        tagMap.put("img", new EmptyTag());
         tagMap.put("b", new BTag());
         tagMap.put("br", new BrTag());
         tagMap.put("span", new OpenCloseTag("", ""));
