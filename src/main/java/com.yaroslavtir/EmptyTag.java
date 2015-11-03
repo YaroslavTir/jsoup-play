@@ -13,7 +13,7 @@ public class EmptyTag implements Tag {
         // do nothing by default
     }
 
-    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
+    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
         // do nothing by default
     }
 

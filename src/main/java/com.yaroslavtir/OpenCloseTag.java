@@ -28,7 +28,7 @@ public class OpenCloseTag extends PrintableTag {
 
 
     @Override
-    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        if (isPrint) super.print(element, elementInfo, sb);
+    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
+        if (isPrint) super.process(element, elementInfo, sb);
     }
 }

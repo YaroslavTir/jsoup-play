@@ -60,7 +60,7 @@ public class PolarionTest {
             "                style=\"vertical-align:text-bottom;border:0px;margin-right:2px;\"\n" +
             "                class=\"polarion-no-style-cleanup\"/></span></span></td>\n" +
             "        <td style=\"text-align: left; padding: 10px; vertical-align: top; background-color: #ffffff;font-weight: bold;\">\n" +
-            "            1\n" +
+            "            \n" +
             "        </td>\n" +
             "        <td style=\"text-align: left; padding: 10px; vertical-align: top; background-color: #ffffff;font-weight: bold;\">\n" +
             "            Open User Account Page\n" +

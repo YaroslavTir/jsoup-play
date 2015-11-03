@@ -2,18 +2,13 @@ package com.yaroslavtir;
 
 import org.jsoup.nodes.Element;
 
-public class DefaultTag implements Tag {
+public class BTag extends PrintableTag {
 
     public void close(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        // do nothing by default
+        if (!element.ownText().isEmpty()) sb.append("*");
     }
 
     public void open(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        // do nothing by default
+        if (!element.ownText().isEmpty()) sb.append("*");
     }
-
-    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        sb.append(element.outerHtml());
-    }
-
 }

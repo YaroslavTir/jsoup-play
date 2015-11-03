@@ -8,5 +8,5 @@ public interface Tag {
 
     void open(Element element, ElementInfo elementInfo, StringBuilder sb);
 
-    void print(Element element,  ElementInfo elementInfo, StringBuilder sb);
+    void process(Element element, ElementInfo elementInfo, StringBuilder sb);
 }

@@ -11,7 +11,7 @@ public class ImgTag implements Tag{
         sb.append("!");
     }
 
-    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
+    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
         sb.append(element.attr("src"));
     }
 }

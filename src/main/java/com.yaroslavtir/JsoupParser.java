@@ -16,7 +16,7 @@ public class JsoupParser {
 //        TAG_MAP.put("img", new ImgTag());
         TAG_MAP.put("img", new EmptyTag());
         TAG_MAP.put("br", new OpenCloseTag("\\\\\n", "", true));
-        TAG_MAP.put("b", new OpenCloseTag("*", "*", true));
+        TAG_MAP.put("b", new BTag());
         TAG_MAP.put("span", new OpenCloseTag("", "", true));
         TAG_MAP.put("tr", new OpenCloseTag("", "\n"));
         TAG_MAP.put("tbody", new EmptyTag());
@@ -47,7 +47,7 @@ public class JsoupParser {
     private void processTag(Tag tag, Element element, final ElementInfo elementInfo, StringBuilder sb) {
         ElementInfo newElementInfo = newElementInfo(element, elementInfo);
         tag.open(element, elementInfo, sb);
-        tag.print(element, newElementInfo, sb);
+        tag.process(element, newElementInfo, sb);
         parse(element, newElementInfo, sb);
         tag.close(element, elementInfo, sb);
     }

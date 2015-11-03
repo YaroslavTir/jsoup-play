@@ -9,13 +9,17 @@ public abstract class PrintableTag implements Tag {
 
     //todo think about get BStyleTag from map
     //todo maybe replace with ENUM
-    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
+    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
         StyleTag styleTag = getStyleTagBy(elementInfo);
         if (styleTag != null) {
-            printStyleTag(styleTag, element, elementInfo, sb);
+            processStyleTag(styleTag, element, elementInfo, sb);
         } else {
-            sb.append(beforePrint(element.ownText()));
+            sb.append(getText(element, elementInfo));
         }
+    }
+
+    protected String getText(Element element, ElementInfo elementInfo) {
+        return beforePrint(element.ownText());
     }
 
     protected String beforePrint(String text) {
@@ -33,10 +37,11 @@ public abstract class PrintableTag implements Tag {
         return null;
     }
 
-    private void printStyleTag(Tag tag, Element element, ElementInfo elementInfo, StringBuilder sb) {
-        tag.open(element, elementInfo, sb);
-        tag.print(element, elementInfo, sb);
-        tag.close(element, elementInfo, sb);
+    private void processStyleTag(Tag tag, Element element, ElementInfo elementInfo, StringBuilder sb) {
+        ElementInfo elementInfoWithText = new ElementInfo(elementInfo.getStyle(), getText(element, elementInfo));
+        tag.open(element, elementInfoWithText, sb);
+        tag.process(element, elementInfoWithText, sb);
+        tag.close(element, elementInfoWithText, sb);
     }
 
 }
