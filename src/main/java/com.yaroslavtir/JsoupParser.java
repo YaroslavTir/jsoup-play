@@ -11,8 +11,9 @@ public class JsoupParser {
 
     private Tag defaultTag = new DefaultTag();
     public static Map<String, Tag> TAG_MAP = new HashMap<String, Tag>();
-
+    public static Map<String, StyleTag> STYLE_TAG_MAP = new HashMap<String, StyleTag>();
     static {
+//        TAG_MAP.put("img", new ImgTag());
         TAG_MAP.put("img", new EmptyTag());
         TAG_MAP.put("br", new OpenCloseTag("\\\\\n", "", true));
         TAG_MAP.put("b", new OpenCloseTag("*", "*", true));
@@ -23,7 +24,6 @@ public class JsoupParser {
         TAG_MAP.put("th", new ThTdTag("||"));
         TAG_MAP.put("td", new ThTdTag("|"));
     }
-    public static Map<String, StyleTag> STYLE_TAG_MAP = new HashMap<String, StyleTag>();
     static {
         TAG_MAP.put("color_style", new ColorStyleTag());
         TAG_MAP.put("b_style", new BStyleTag());
@@ -32,10 +32,7 @@ public class JsoupParser {
 
     String start(String html) {
         StringBuilder sb = new StringBuilder();
-        long start = System.currentTimeMillis();
         parse(Jsoup.parse(html).body(), new ElementInfo(Collections.<String, String>emptyMap()), sb);
-        System.out.println(sb.toString());
-        System.out.println(System.currentTimeMillis() - start);
         return sb.toString();
     }
 
@@ -47,7 +44,7 @@ public class JsoupParser {
         }
     }
 
-    private void processTag(Tag tag, Element element, ElementInfo elementInfo, StringBuilder sb) {
+    private void processTag(Tag tag, Element element, final ElementInfo elementInfo, StringBuilder sb) {
         ElementInfo newElementInfo = newElementInfo(element, elementInfo);
         tag.open(element, elementInfo, sb);
         tag.print(element, newElementInfo, sb);
@@ -55,7 +52,7 @@ public class JsoupParser {
         tag.close(element, elementInfo, sb);
     }
 
-    private ElementInfo newElementInfo(Element element, ElementInfo OldElementInfo) {
+    private ElementInfo newElementInfo(Element element, final ElementInfo oldElementInfo) {
 
         Map<String, String> styleMap = new HashMap<String, String>();
         String style = element.attr("style");
@@ -73,11 +70,11 @@ public class JsoupParser {
         //todo create new map by merge old one and new one
         if (styleMap.size() > 0) {
             HashMap<String, String> newMap = new HashMap<String, String>();
-            newMap.putAll(OldElementInfo.getStyle());
+            newMap.putAll(oldElementInfo.getStyle());
             newMap.putAll(styleMap);
             return new ElementInfo(newMap);
         }
-        return OldElementInfo;
+        return oldElementInfo;
     }
 
 }

@@ -1,13 +1,18 @@
 package com.yaroslavtir;
 
 
+import junit.framework.Assert;
 import org.junit.Test;
 
 public class PolarionTest {
 
     @Test
     public void test() throws Exception {
-        new JsoupParser().start(html);
+            long start = System.currentTimeMillis();
+            String result = new JsoupParser().start(html);
+            System.out.println(result);
+            System.out.println(System.currentTimeMillis() - start);
+            Assert.assertNotNull(result);
     }
 
 

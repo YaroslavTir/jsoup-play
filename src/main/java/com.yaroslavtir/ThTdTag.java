@@ -11,7 +11,7 @@ public class ThTdTag extends PrintableTag {
     }
 
     public void open(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        sb.append("||");
+        sb.append(separator);
     }
 
     public void close(Element element, ElementInfo elementInfo, StringBuilder sb) {
@@ -22,6 +22,7 @@ public class ThTdTag extends PrintableTag {
 
     @Override
     protected String beforePrint(String text) {
+        //jira mackup ignore empty call and not display them, so replace empty string to space
         if (text.isEmpty()) return " ";
         return text;
     }
