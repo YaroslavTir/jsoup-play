@@ -2,7 +2,7 @@ package com.yaroslavtir;
 
 import org.jsoup.nodes.Node;
 
-public class OpenCloseTag extends AbstractTag {
+public class OpenCloseTag extends PrintableTag {
     final String openStr;
     final String closeStr;
 
@@ -11,12 +11,10 @@ public class OpenCloseTag extends AbstractTag {
         this.closeStr = closeStr;
     }
 
-    @Override
     public void open(Node node, StringBuilder sb) {
         sb.append(openStr);
     }
 
-    @Override
     public void close(Node node, StringBuilder sb) {
         sb.append(closeStr);
     }

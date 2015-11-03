@@ -11,7 +11,8 @@ public class PolarionTest {
     }
 
 
-    public static final String html2 = "<table>\n" +
+    public static final String html2 = "<br/>" +
+            "<table>\n" +
             "    <tbody>\n" +
             "    <tr>\n" +
             "        <th>noting</th>\n" +

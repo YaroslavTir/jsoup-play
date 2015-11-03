@@ -1,5 +1,19 @@
 package com.yaroslavtir;
 
 
-public class EmptyTag extends AbstractTag {
+import org.jsoup.nodes.Node;
+
+public class EmptyTag implements Tag {
+    public void close(Node node, StringBuilder sb) {
+        // do nothing by default
+    }
+
+    public void open(Node node, StringBuilder sb) {
+        // do nothing by default
+    }
+
+
+    public void print(Node node, StringBuilder sb) {
+        // do nothing by default
+    }
 }

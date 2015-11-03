@@ -1,8 +1,9 @@
 package com.yaroslavtir;
 
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 
-public class AbstractTag {
+public class DefaultTag implements Tag {
 
     public void close(Node node, StringBuilder sb) {
         // do nothing by default
@@ -12,9 +13,9 @@ public class AbstractTag {
         // do nothing by default
     }
 
-
-    public void print(Node node, StringBuilder sb){
-        // do nothing by default
+    public void print(Node node, StringBuilder sb) {
+        Element element = (Element) node;
+        sb.append(element.outerHtml());
     }
 
 

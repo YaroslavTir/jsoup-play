@@ -9,7 +9,8 @@ import java.util.Map;
 
 public class JsoupParser {
 
-    Map<String, AbstractTag> tagMap = new HashMap<String, AbstractTag>();
+    private Tag defaultTag = new DefaultTag();
+    private Map<String, Tag> tagMap = new HashMap<String, Tag>();
 
     String start(String html) {
         init();
@@ -22,7 +23,9 @@ public class JsoupParser {
     }
 
     void init() {
-        tagMap.put("b", new OpenCloseTag("*", "*"));
+        tagMap.put("b", new BTag());
+        tagMap.put("br", new BrTag());
+        tagMap.put("span", new OpenCloseTag("",""));
         tagMap.put("tr", new OpenCloseTag("", "\n"));
         tagMap.put("tbody", new EmptyTag());
         tagMap.put("table", new EmptyTag());
@@ -39,14 +42,17 @@ public class JsoupParser {
     public void parseElement(Node node, StringBuilder sb) {
         if (node instanceof Element) {
             Element element = (Element) node;
-            AbstractTag tag = tagMap.get(element.tag().getName());
-            if (tag != null) {
-                tag.open(element, sb);
-                tag.print(element, sb);
-                parse(element, sb);
-                tag.close(element, sb);
-            }
+            Tag tag = tagMap.get(element.tag().getName());
+            if (tag != null) processTag(tag, element, sb);
+            if (tag == null) processTag(defaultTag, element, sb);
         }
+    }
+
+    private void processTag(Tag tag, Element element, StringBuilder sb) {
+        tag.open(element, sb);
+        tag.print(element, sb);
+        parse(element, sb);
+        tag.close(element, sb);
     }
 
 }
