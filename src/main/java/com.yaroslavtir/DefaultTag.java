@@ -13,7 +13,7 @@ public class DefaultTag implements Tag {
         // do nothing by default
     }
 
-    public void print(Node node, StringBuilder sb) {
+    public void print(Node node, ElementInfo ei, StringBuilder sb) {
         Element element = (Element) node;
         sb.append(element.outerHtml());
     }

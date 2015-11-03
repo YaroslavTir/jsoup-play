@@ -2,7 +2,7 @@ package com.yaroslavtir;
 
 import org.jsoup.nodes.Node;
 
-public class OpenCloseTag extends PrintableTag {
+public class OpenCloseTag extends EmptyTag {
     final String openStr;
     final String closeStr;
 
