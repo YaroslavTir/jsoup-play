@@ -1,18 +1,20 @@
 package com.yaroslavtir;
 
 
+import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 
 public class EmptyTag implements Tag {
-    public void close(Node node, StringBuilder sb) {
+    public void close(Element element, ElementInfo elementInfo, StringBuilder sb) {
         // do nothing by default
     }
 
-    public void open(Node node, StringBuilder sb) {
+    public void open(Element element, ElementInfo elementInfo, StringBuilder sb) {
         // do nothing by default
     }
 
-    public void print(Node node, ElementInfo ei, StringBuilder sb) {
+    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
         // do nothing by default
     }
+
 }

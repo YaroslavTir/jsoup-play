@@ -15,7 +15,7 @@ public class PolarionTest {
             "<table>\n" +
             "    <tbody>\n" +
             "    <tr>\n" +
-            "        <th>noting</th>\n" +
+            "        <th style=\"color: #757575\">noting</th>\n" +
             "        <th>head1</th>\n" +
             "    </tr>\n" +
             "    <tr>\n" +

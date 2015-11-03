@@ -1,37 +1,42 @@
 package com.yaroslavtir;
 
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public abstract class PrintableTag implements Tag {
-    //todo rename ei(or elementInfo in other place) and think about get BTag from map
-    public void print(Node node, ElementInfo ei, StringBuilder sb) {
-        if (ei.getStyle().get("font-weight") != null) {
-            String fontWeight = ei.getStyle().get("font-weight");
-            if ("bold".equals(fontWeight)) processTag(new BTag(), node, getNewElementInfo(ei, "font-weight"), sb);
-        } else if (ei.getStyle().get("color") != null) {
-            String color = ei.getStyle().get("color");
-            processTag(new ColorTag(color), node, getNewElementInfo(ei, "color"), sb);
+
+
+    //todo think about get BStyleTag from map
+    //todo maybe replace with ENUM
+    public void print(Element element, ElementInfo elementInfo, StringBuilder sb) {
+        StyleTag styleTag = getStyleTagBy(elementInfo);
+        if (styleTag != null) {
+            printStyleTag(styleTag, element, elementInfo, sb);
         } else {
-            Element element = (Element) node;
-            sb.append(element.ownText());
+            sb.append(beforePrint(element.ownText()));
         }
     }
 
-    private ElementInfo getNewElementInfo(ElementInfo oldElementInfo, String excludeElement){
-        Map<String, String> newStyles = new HashMap<String, String>(oldElementInfo.getStyle());
-        newStyles.remove(excludeElement);
-        return new ElementInfo(newStyles);
+    protected String beforePrint(String text) {
+        return text;
     }
 
-    private void processTag(Tag tag, Node node, ElementInfo ei, StringBuilder sb) {
-        tag.open(node, sb);
-        tag.print(node, ei, sb);
-        tag.close(node, sb);
+    protected StyleTag getStyleTagBy(ElementInfo elementInfo) {
+        Map<String, String> styleMap = elementInfo.getStyle();
+        if (styleMap.get("font-weight") != null) {
+            if ("bold".equals(styleMap.get("font-weight")))
+                return JsoupParser.STYLE_TAG_MAP.get("b_style");
+        } else if (styleMap.get("color") != null) {
+            return JsoupParser.STYLE_TAG_MAP.get("color_style");
+        }
+        return null;
     }
 
+    private void printStyleTag(Tag tag, Element element, ElementInfo elementInfo, StringBuilder sb) {
+        tag.open(element, elementInfo, sb);
+        tag.print(element, elementInfo, sb);
+        tag.close(element, elementInfo, sb);
+    }
 
 }

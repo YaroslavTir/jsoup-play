@@ -1,12 +1,12 @@
 package com.yaroslavtir;
 
-import org.jsoup.nodes.Node;
+import org.jsoup.nodes.Element;
 
 public interface Tag {
 
-    void close(Node node, StringBuilder sb);
+    void close(Element element, ElementInfo elementInfo, StringBuilder sb);
 
-    void open(Node node, StringBuilder sb);
+    void open(Element element, ElementInfo elementInfo, StringBuilder sb);
 
-    void print(Node node,  ElementInfo ei, StringBuilder sb);
+    void print(Element element,  ElementInfo elementInfo, StringBuilder sb);
 }
