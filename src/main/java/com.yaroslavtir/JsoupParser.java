@@ -25,8 +25,8 @@ public class JsoupParser {
         TAG_MAP.put("td", new ThTdTag("|"));
     }
     static {
-        TAG_MAP.put("color_style", new ColorStyleTag());
-        TAG_MAP.put("b_style", new BStyleTag());
+        STYLE_TAG_MAP.put("color_style", new ColorStyleTag());
+        STYLE_TAG_MAP.put("b_style", new BStyleTag());
     }
 
 
