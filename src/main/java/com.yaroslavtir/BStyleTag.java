@@ -1,29 +1,13 @@
 package com.yaroslavtir;
 
-import org.jsoup.nodes.Element;
+public class BStyleTag implements StyleTag {
 
-public class BStyleTag extends StyleTag {
-
-    public static final String KEY = "font-weight";
-    private final BTag btag = new BTag();
-
-    @Override
-    protected String getKey() {
-        return KEY;
+    public void open(ElementInfo elementInfo, String text, StringBuilder sb) {
+        if (!text.isEmpty()) sb.append("*");
     }
 
-    private void printStyleTag(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        open(element, elementInfo, sb);
-        close(element, elementInfo, sb);
+    public void close(ElementInfo elementInfo, String text, StringBuilder sb) {
+        if (!text.isEmpty()) sb.append("*");
     }
-
-    public void open(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        btag.open(element, elementInfo, sb);
-    }
-
-    public void close(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        btag.close(element, elementInfo, sb);
-    }
-
 
 }

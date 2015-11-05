@@ -2,7 +2,7 @@ package com.yaroslavtir;
 
 import org.jsoup.nodes.Element;
 
-public class OpenCloseTag extends PrintableTag {
+public class OpenCloseTag extends RecursiveTag {
     final String openStr;
     final String closeStr;
     final boolean isPrint;
@@ -26,9 +26,4 @@ public class OpenCloseTag extends PrintableTag {
         sb.append(closeStr);
     }
 
-
-    @Override
-    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
-        if (isPrint) super.process(element, elementInfo, sb);
-    }
 }

@@ -2,7 +2,7 @@ package com.yaroslavtir;
 
 import org.jsoup.nodes.Element;
 
-public class ThTdTag extends PrintableTag {
+public class ThTdTag extends RecursiveTag {
 
     final String separator;
 
@@ -21,10 +21,9 @@ public class ThTdTag extends PrintableTag {
     }
 
     @Override
-    protected String beforePrint(String text) {
-        //jira mackup ignore empty call and not display them, so replace empty string to space
-        if (text.isEmpty()) return " ";
-        return text;
+    public void process(Element element, ElementInfo elementInfo, StringBuilder sb) {
+        if (element.ownText().isEmpty()) sb.append(" ");
     }
+
 
 }
