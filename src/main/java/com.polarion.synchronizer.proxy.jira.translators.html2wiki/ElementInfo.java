@@ -1,4 +1,4 @@
-package com.yaroslavtir;
+package com.polarion.synchronizer.proxy.jira.translators.html2wiki;
 
 
 import java.util.Map;

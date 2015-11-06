@@ -1,43 +1,62 @@
-package com.yaroslavtir;
+/*
+ * Copyright (C) 2004-2015 Polarion Software
+ * All rights reserved.
+ * Email: dev@polarion.com
+ *
+ *
+ * Copyright (C) 2004-2015 Polarion Software
+ * All Rights Reserved.  No use, copying or distribution of this
+ * work may be made except in accordance with a valid license
+ * agreement from Polarion Software.  This notice must be
+ * included on all copies, modifications and derivatives of this
+ * work.
+ *
+ * POLARION SOFTWARE MAKES NO REPRESENTATIONS OR WARRANTIES
+ * ABOUT THE SUITABILITY OF THE SOFTWARE, EITHER EXPRESSED OR IMPLIED,
+ * INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE, OR NON-INFRINGEMENT. POLARION SOFTWARE
+ * SHALL NOT BE LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT
+ * OF USING, MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES.
+ *
+ */
+package com.polarion.synchronizer.proxy.jira.translators.html2wiki;
 
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
+import org.jsoup.safety.Whitelist;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class JsoupParser {
+public class HTML2JiraWikiConverter {
 
-    private Tag defaultTag = new DefaultTag();
-    public static Map<String, Tag> TAG_MAP = new HashMap<String, Tag>();
-    public static Map<String, StyleTag> STYLE_TAG_MAP = new HashMap<String, StyleTag>();
+    @NotNull
+    private TagContainer tagContainer;
+    @NotNull
+    private String baseUrl;
 
-    static {
-//        TAG_MAP.put("img", new ImgTag());
-        TAG_MAP.put("img", new EmptyTag());
-        TAG_MAP.put("br", new OpenCloseTag("\\\\\n", "", true));
-        TAG_MAP.put("b", new BTag());
-//        TAG_MAP.put("span", new OpenCloseTag("", "", true));
-        TAG_MAP.put("tr", new OpenCloseTag("", "\n"));
-        TAG_MAP.put("tbody", new EmptyTag());
-        TAG_MAP.put("table", new OpenCloseTag("", "\n"));
-        TAG_MAP.put("th", new ThTdTag("||"));
-        TAG_MAP.put("td", new ThTdTag("|"));
-    }
 
-    static {
-        STYLE_TAG_MAP.put("color", new ColorStyleTag());
-        STYLE_TAG_MAP.put("font-weight", new BStyleTag());
+    public HTML2JiraWikiConverter(@NotNull TagContainer tagContainer, @NotNull String baseUrl) {
+        this.tagContainer = tagContainer;
+        this.baseUrl = baseUrl;
     }
 
 
-    String start(String html) {
+    public String convert(String source) {
         StringBuilder sb = new StringBuilder();
-        parse(Jsoup.parse(html).body(), new ElementInfo(Collections.<String, String>emptyMap()), sb);
+        Whitelist whitelist = Whitelist
+                .simpleText()
+                .addTags(new String[] { "span", "br", "img", "table", "tr", "td", "th" })
+                .addProtocols("img", "src", new String[] { "http", "https" })
+                .addAttributes(":all", "style", "src")
+                .addAttributes("span", "class", "data-type", "data-item-id", "data-revision");
+        String cleanHTML = Jsoup.clean(source, whitelist);
+        parse(Jsoup.parse(cleanHTML, baseUrl).body(), new ElementInfo(Collections.<String, String> emptyMap()), sb);
         return sb.toString();
     }
 
@@ -45,7 +64,7 @@ public class JsoupParser {
         for (Node node : parentElement.childNodes()) {
             if (node instanceof Element) {
                 Element element = (Element) node;
-                Tag tag = TAG_MAP.get(element.tag().getName());
+                Tag tag = tagContainer.getTagMap().get(element.tag().getName());
                 if (tag != null) {
                     ElementInfo newElementInfo = newElementInfo(element, elementInfo);
                     tag.open(element, elementInfo, sb);
@@ -61,6 +80,7 @@ public class JsoupParser {
             } else if (node instanceof TextNode) {
                 TextNode textNode = (TextNode) node;
                 String text = stripText(textNode.text()).trim();
+
                 if (!"".equals(text)) parseStyles(elementInfo, text, sb);
             }
         }
@@ -69,12 +89,14 @@ public class JsoupParser {
     private void parseStyles(ElementInfo elementInfo, String text, StringBuilder sb) {
         String style = getStyleBy(elementInfo);
         if (style != null) {
-            StyleTag styleTag = JsoupParser.STYLE_TAG_MAP.get(style);
+            StyleTag styleTag = tagContainer.getStyleTagMap().get(style);
             if (styleTag != null) {
                 ElementInfo newElementInfo = getNewElementInfo(elementInfo, style);
                 styleTag.open(elementInfo, text, sb);
                 parseStyles(newElementInfo, text, sb);
                 styleTag.close(elementInfo, text, sb);
+            } else {
+                System.out.println();
             }
         } else {
             sb.append(text);

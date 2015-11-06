@@ -1,4 +1,4 @@
-package com.yaroslavtir;
+package com.polarion.synchronizer.proxy.jira.translators.html2wiki;
 
 
 import junit.framework.Assert;
@@ -9,30 +9,45 @@ public class PolarionTest {
     @Test
     public void test() throws Exception {
             long start = System.currentTimeMillis();
-            String result = new JsoupParser().start(html3);
+            HTML2JiraWikiConverter converter = new HTML2JiraWikiConverter(new TagContainer(), "http://test.com");
+            String result = converter.convert(html6);
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
+//            System.out.println(converter.convert(html6));
             System.out.println(result);
             System.out.println(System.currentTimeMillis() - start);
             Assert.assertNotNull(result);
     }
 
         public static final String html1 =
-                "<table>\n" +
-                "    <tbody>\n" +
-                "    <tr>\n" +
-                "        <td>a<img/></td>\n" +
-                "        <td>1</td>\n" +
-                "    </tr>\n" +
+                "<table style=\"border-collapse: collapse;\">\n" +
+                        "    <tbody>\n" +
+                        "    <tr style=\"color: #757575;\">\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\"></th>\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\">#</th>\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\">Step</th>\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\">Step Description</th>\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\">Expected Result</th>\n" +
+                        "        <th style=\"background-color: #FFFFFF;text-align: left;vertical-align: top;padding: 10px;\">Actual Result</th>\n" +
+                        "    </tr>\n" +
+                        "    </tbody>\n" +
+                        "    </table>";
 
-                "    </tbody>\n" +
-                "</table>\n";
-
+        public static final String html5 = " <tr style=\"font-weight: bold;\" >head1</tr>\n";
+        public static final String html6 =
+                "<table><tbody><tr><th style=\"font-weight: bold;\" >head1</th></tr></tbody></table>";
 
     public static final String html2 = "<br/>" +
             "<table>\n" +
             "    <tbody>\n" +
             "    <tr>\n" +
             "        <th style=\"color: #757575\">noting</th>\n" +
-            "        <th>head1</th>\n" +
+            "        <th style=\"font-weight: bold;\" >head1</th>\n" +
             "    </tr>\n" +
             "    <tr>\n" +
             "        <td>a<img/></td>\n" +
@@ -44,6 +59,8 @@ public class PolarionTest {
             "    </tr>\n" +
             "    </tbody>\n" +
             "</table>\n";
+
+
 
 
         public static final String html4 = "<table id=\"polarion_wiki macro name=table;params=width=38.37%\" class=\"polarion-Document-table\"\n" +
